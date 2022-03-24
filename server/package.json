@@ -2,10 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "src/Index.ts",
+  "main": "src/index.ts",
   "scripts": {
-    "build": "tsc --project ./",
-    "startts": "ts-node-dev src/Index.ts",
+    "build": "tsc",
+    "dev": "ts-node-dev src/index.ts",
     "test": "mocha -r ts-node/register src/**/*.spec.ts"
   },
   "keywords": [],

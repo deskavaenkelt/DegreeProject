@@ -1,6 +1,6 @@
 import Chai from 'chai'
 import 'mocha'
-import app from './Index'
+import app from './index'
 import chaiHttp = require('chai-http')
 
 Chai.use(chaiHttp)
