@@ -12,5 +12,5 @@
 ## Start commands
 
 - Build: `npm run build`
-- Start server: `npm run dev`
+- Start server: `npm run start`
 - Run tests: `npm run test`
