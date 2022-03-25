@@ -22,7 +22,7 @@ const ApiAlive = () => {
 	return (
 		<>
 			<h1>Verify Api Alive</h1>
-			<h2>{ text }</h2>
+			<h2 style={ {color: 'green'}}>{ text }</h2>
 		</>
 	)
 }
