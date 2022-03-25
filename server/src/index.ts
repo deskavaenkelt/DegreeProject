@@ -1,5 +1,9 @@
 import express from 'express'
 import cors from 'cors'
+import dotenv from 'dotenv'
+
+dotenv.config()
+const PORT = process.env.SERVER_PORT || 8080
 
 // Middlewares
 const allowedOrigins = ['http://localhost:3000']
@@ -12,7 +16,7 @@ const options: cors.CorsOptions = {
 
 const app = express()
 app.use(cors(options))
-const PORT = 8000
+
 app.get('/', (req, res) => res.send('API is Alive with TypeScript!'))
 app.listen(PORT, () => {
 	console.log(`⚡️[server]: Server is running at http://localhost:${ PORT }`)
