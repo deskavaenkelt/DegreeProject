@@ -1,7 +1,7 @@
 import Chai from 'chai'
 import 'mocha'
 import app from './index'
-import chaiHttp = require('chai-http')
+import chaiHttp  from 'chai-http'
 
 Chai.use(chaiHttp)
 const expect = Chai.expect
