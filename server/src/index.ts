@@ -17,7 +17,11 @@ const options: cors.CorsOptions = {
 const app = express()
 app.use(cors(options))
 
-app.get('/', (req, res) => res.send('API is Alive with TypeScript!'))
+app.get('/', (req, res) => {
+	console.log('GET request received!')
+	res.send('API is Alive with TypeScript!')
+})
+
 app.listen(PORT, () => {
 	console.log(`⚡️[server]: Server is running at http://localhost:${ PORT }`)
 })

@@ -4,7 +4,7 @@ import ApiAlive from './components/ApiAlive'
 function App() {
 	return (
 		<>
-			<h1>App</h1>
+			<h1>AppZ</h1>
 			<ApiAlive/>
 		</>
 	)

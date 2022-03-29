@@ -1,0 +1,45 @@
+version: "3"
+services:
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.prod
+    ports:
+      - "80:80"
+    networks:
+      - mern-network-prod
+    depends_on:
+      - server
+#    environment:
+#      - REACT_APP_SERVER=http://localhost:3000
+#      - CHOKIDAR_USEPOLLING=true
+#    command: npm start
+#    stdin_open: true
+#    tty: true
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.prod
+    ports:
+      - "8080:8080"
+    networks:
+      - mern-network-prod
+    depends_on:
+      - db
+    environment:
+      - MONGO_URL=mongodb://db:27017
+      - CLIENT=http://localhost:80
+
+  mongodb:
+    image: mongo:3.6.19-xenial
+    ports:
+      - "27017:27017"
+    networks:
+      - mern-network-prod
+    restart: always
+
+networks:
+  mern-network-prod:
+    driver: bridge

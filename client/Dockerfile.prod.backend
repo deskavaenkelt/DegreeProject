@@ -1,0 +1,26 @@
+# FROM node:12-alpine as builder
+#WORKDIR /app
+#COPY package.json /app/package.json
+#RUN npm install --only=prod
+#COPY . /app
+#RUN npm run build
+
+# this is stage one , install dependencies and build the app
+FROM node:12.17.0-alpine as builder
+WORKDIR /app
+COPY package.json ./
+COPY tsconfig.json ./
+COPY src ./src
+RUN ls -a
+RUN npm install
+RUN npm run build
+
+# this is stage two , where the app actually runs
+FROM node:12.17.0-alpine
+WORKDIR /app
+COPY package.json ./
+RUN npm install --only=production
+COPY --from=builder /app/dist .
+RUN npm install pm2 -g
+EXPOSE 80
+CMD ["pm2-runtime","index.js"]
