@@ -20,7 +20,7 @@ const updatedTodo = {
 }
 
 const toggleCompletedToTrue = {
-	newCompletedState: true
+	newTodoStatus: true
 }
 
 const createTodo = () => {
@@ -105,7 +105,7 @@ const updateTodo = () => {
 	})
 }
 
-const setNewTodoCompletedState = () => {
+const toggleTodoStatus = () => {
 	describe('Set Todo Completed State', () => {
 		it('should set a todo completed state', () => {
 			return Chai.request(app)
@@ -150,6 +150,6 @@ describe('TESTING THE TODO API ROUTE', () => {
 	findAllTodos()
 	findTodoById()
 	updateTodo()
-	setNewTodoCompletedState()
+	toggleTodoStatus()
 	deleteTodo()
 })

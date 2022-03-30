@@ -8,7 +8,7 @@ const TodoRoutes = (app: Express) => {
 	app.get('/todos/:id', TodoController.findTodoById)
 	
 	app.put('/todos/:id', TodoController.updateTodo)
-	app.put('/todos/toggleCompleted/:id', TodoController.setNewTodoCompletedState)
+	app.put('/todos/toggleCompleted/:id', TodoController.toggleTodoStatus)
 	
 	app.delete('/todos/:id', TodoController.deleteTodo)
 }

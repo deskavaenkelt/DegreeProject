@@ -61,12 +61,12 @@ const updateTodo = async (req: Request, res: Response) => {
 	}
 }
 
-const setNewTodoCompletedState = async (req: Request, res: Response) => {
+const toggleTodoStatus = async (req: Request, res: Response) => {
 	try {
 		const {id} = req.params
-		const {newCompletedState} = req.body
+		const {newTodoStatus} = req.body
 		const todo = await TodoModel.findByIdAndUpdate(id, {
-			completed: newCompletedState
+			completed: newTodoStatus
 		}, {new: true})
 		Logger.debug(todo)
 		res.status(StatusCode.OK).json(todo)
@@ -93,6 +93,6 @@ export default {
 	findAllTodos,
 	findTodoById,
 	updateTodo,
-	setNewTodoCompletedState,
+	toggleTodoStatus,
 	deleteTodo
 }

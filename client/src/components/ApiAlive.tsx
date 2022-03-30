@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react'
-import ApiService from '../utils/api/service/ApiService'
+import { FcApproval, FcCancel } from 'react-icons/fc'
+import TodoService from '../utils/api/service/TodoService'
+import styles from './ApiAlive.module.css'
+import cardStyles from './todo/Card.module.css'
 
 const ApiAlive = () => {
 	const [text, setText] = useState('')
+	const [dbConnection, setDbConnection] = useState(false)
 	
 	function alive() {
-		ApiService.alive()
+		TodoService.alive()
 			.then(function (response) {
-				console.log(response.data)
-				setText(response.data)
+				setDbConnection(response.data === 'API is Alive with TypeScript!')
 			})
 			.catch(function (error) {
 				console.log(error)
+				setText('Connection to API failed!')
 			})
 	}
 	
@@ -20,11 +24,15 @@ const ApiAlive = () => {
 	}, [])
 	
 	return (
-		<>
-			<h1>Verify Api Alive</h1>
-			<h2 style={ {color: 'green'}}>{ text }</h2>
-		</>
+		<div className={ styles.dbResponse }>
+			Database Connection {
+			dbConnection
+				? <FcApproval className={ cardStyles.icon }/>
+				: <FcCancel className={ cardStyles.icon }/> }
+			{ text }
+		</div>
 	)
 }
 
 export default ApiAlive
+

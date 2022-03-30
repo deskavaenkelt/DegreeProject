@@ -1,11 +1,18 @@
 import React from 'react'
+import styles from './App.module.css'
 import ApiAlive from './components/ApiAlive'
+import CardList from './components/todo/CardList'
 
 function App() {
 	return (
 		<>
-			<h1>AppZ</h1>
 			<ApiAlive/>
+			<div className={ styles.gridContainer }>
+				<span/>
+				<CardList/>
+				<span/>
+			</div>
+		
 		</>
 	)
 }
