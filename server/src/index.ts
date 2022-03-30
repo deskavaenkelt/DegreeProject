@@ -1,29 +1,21 @@
 import express from 'express'
-import cors from 'cors'
-import dotenv from 'dotenv'
+import Configuration from './configurations/Configuration'
+import Middleware from './middlewares/Middleware'
+import AliveRoutes from './routes/AliveRoutes'
+import TodoRoutes from './routes/TodoRoutes'
+import Logger from './utils/Logger'
 
-dotenv.config()
-const PORT = process.env.SERVER_PORT || 8080
-
-// Middlewares
-const allowedOrigins = ['http://localhost:3000']
-const allowedMethods = ['GET', 'POST', 'PUT', 'DELETE']
-
-const options: cors.CorsOptions = {
-	origin: allowedOrigins,
-	methods: allowedMethods
-}
 
 const app = express()
-app.use(cors(options))
+Middleware.applyMiddlewares(app)
 
-app.get('/', (req, res) => {
-	console.log('GET request received!')
-	res.send('API is Alive with TypeScript!')
-})
+AliveRoutes(app)
+TodoRoutes(app)
 
-app.listen(PORT, () => {
-	console.log(`⚡️[server]: Server is running at http://localhost:${ PORT }`)
+Middleware.errorHandlerAndNotFound(app)
+Configuration.connectToPort(app)
+Configuration.connectToDatabase().then(() => {
+	Logger.debug('--== lolz ==--')
 })
 
 export default app
