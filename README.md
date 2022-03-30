@@ -84,3 +84,13 @@ will have some unit tests as well as function tests to, for example, verify logi
 - Build: `npm run build`
 - Start server: `npm start`
 - Run tests: `npm test`
+
+
+## Getting started Script
+
+Run the script in the folder where the project should locate. 
+
+```shell
+curl -o gettingStartedScript.sh https://raw.githubusercontent.com/deskavaenkelt/DegreeProject/main/gettingStartedScript.sh
+sh gettingStartedScript.sh
+```
