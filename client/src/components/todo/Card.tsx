@@ -8,17 +8,18 @@ import styles from './Card.module.css'
 
 interface Props {
 	todo: ReadTodo,
-	setTodos: (todos: ReadTodo[]) => void
+	// setTodos: (todos: ReadTodo[]) => void
+	getAllTodos: () => void
 }
 
-const Card: FC<Props> = ({todo, setTodos}) => {
+const Card: FC<Props> = ({todo, getAllTodos}) => {
 	const [isEditing, setIsEditing] = useState(false)
 	const [updatedTitle, setUpdatedTitle] = useState(todo.title)
 	const [updatedAssignedTo, setUpdatedAssignedTo] = useState(todo.assignedTo)
 	
 	function deleteTodo() {
 		TodoService.deleteTodo(todo._id).then(() => {
-			setTodos([])
+			getAllTodos()
 		})
 	}
 	
@@ -27,7 +28,7 @@ const Card: FC<Props> = ({todo, setTodos}) => {
 			newTodoStatus: !todo.completed
 		}
 		TodoService.toggleTodoStatus(todo._id, payload).then(() => {
-			setTodos([])
+			getAllTodos()
 		})
 	}
 	
@@ -37,7 +38,8 @@ const Card: FC<Props> = ({todo, setTodos}) => {
 			assignedTo: updatedAssignedTo
 		}
 		TodoService.updateTodo(todo._id, payload).then(() => {
-			setTodos([])
+			getAllTodos()
+			setIsEditing(!isEditing)
 		})
 	}
 	

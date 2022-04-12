@@ -29,7 +29,7 @@ const ApiAlive = () => {
 			dbConnection
 				? <FcApproval className={ cardStyles.icon }/>
 				: <FcCancel className={ cardStyles.icon }/> }
-			{ text }
+			<br/>{ text }
 		</div>
 	)
 }

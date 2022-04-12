@@ -23,7 +23,7 @@ const CardList = () => {
 	
 	useEffect(() => {
 		getAllTodos()
-	}, [todos])
+	}, [])
 	
 	function noTodos() {
 		return (
@@ -37,15 +37,15 @@ const CardList = () => {
 	function renderTodos() {
 		return todos.map((todo) => {
 			return (
-				<Card key={ todo._id } todo={ todo } setTodos={ setTodos }/>
+				<Card key={ todo._id } todo={ todo } getAllTodos={ getAllTodos }/>
 			)
 		})
 	}
 	
 	return (
 		<section>
-			<NewTask/>
-			<h1>ToDo's <FcSynchronize className={ cardStyles.icon } onClick={ () => setTodos([]) }/></h1>
+			<NewTask getAllTodos={ getAllTodos }/>
+			<h1>ToDo's <FcSynchronize className={ cardStyles.icon } onClick={ getAllTodos }/></h1>
 			
 			{ todos.length === 0 ? noTodos() : renderTodos() }
 		</section>

@@ -1,10 +1,14 @@
-import { useState } from 'react'
+import { FC, useState } from 'react'
 import { FcPlus } from 'react-icons/fc'
 import TodoService from '../../utils/api/service/TodoService'
 import { CreateOrUpdateTodo } from '../../utils/interface/TodoInterfaces'
 import cardStyles from './Card.module.css'
 
-const NewTask = () => {
+interface Props {
+	getAllTodos: () => void
+}
+
+const NewTask: FC<Props> = ({getAllTodos}) => {
 	const [title, setTitle] = useState<string>('Do Something')
 	const [assignedTo, setAssignedTo] = useState<string>('Me')
 	const [createMessage, setCreateMessage] = useState<string>('')
@@ -19,6 +23,7 @@ const NewTask = () => {
 			.then((response) => {
 				if (response.status === 201) {
 					setCreateMessage('Todo created successfully')
+					getAllTodos()
 				} else {
 					setCreateMessage('Todo creation failed')
 				}
