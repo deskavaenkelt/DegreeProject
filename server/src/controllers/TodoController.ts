@@ -4,84 +4,138 @@ import { CreateTodo } from '../utils/interface/Todos'
 import Logger from '../utils/Logger'
 import StatusCode from '../utils/StatusCode'
 
-const create = async (req: Request, res: Response) => {
+const returnUpdatedObject = {
+	new: true
+}
+
+const create = (req: Request, res: Response) => {
 	try {
 		Logger.http(req.body)
 		const {title, assignedTo}: CreateTodo = req.body
-		const todo = new TodoModel({
-			title,
-			completed: false,
-			assignedTo
-		})
-		await todo.save()
-		res.status(StatusCode.CREATED).json(todo)
+		const incompleteBody = !title || !assignedTo
+		if (incompleteBody) {
+			return res.status(StatusCode.BAD_REQUEST).json({
+				message: 'Title and assignedTo are required'
+			})
+		} else {
+			const todo = new TodoModel({
+				title,
+				completed: false,
+				assignedTo
+			})
+			todo.save(() => {
+				res.status(StatusCode.CREATED).json(todo)
+			})
+		}
 	} catch (error) {
 		Logger.error(error)
 		res.status(StatusCode.INTERNAL_SERVER_ERROR).json({error})
 	}
 }
 
-const findAllTodos = async (req: Request, res: Response) => {
+const findAllTodos = (req: Request, res: Response) => {
 	try {
 		Logger.http(req.body)
-		const todos = await TodoModel.find()
-		Logger.debug(todos)
-		res.status(StatusCode.OK).json(todos)
+		TodoModel.find((error, todos) => {
+			if (error) {
+				Logger.error(error)
+				res.status(StatusCode.BAD_REQUEST).send({
+					error: 'Error getting users'
+				})
+			} else {
+				Logger.debug(todos)
+				res.status(StatusCode.OK).json(todos)
+			}
+		})
 	} catch (error) {
 		Logger.error(error)
 		res.status(StatusCode.INTERNAL_SERVER_ERROR).json({error})
 	}
 }
 
-const findTodoById = async (req: Request, res: Response) => {
+const findTodoById = (req: Request, res: Response) => {
 	try {
 		const {id} = req.params
-		const todo = await TodoModel.findById(id)
-		Logger.debug(todo)
-		res.status(StatusCode.OK).json(todo)
+		TodoModel.findById(id, (error: any, todo: any) => {
+			if (error) {
+				Logger.error(error)
+				res.status(StatusCode.BAD_REQUEST).send({
+					error: 'Error getting todo'
+				})
+			} else {
+				Logger.debug(todo)
+				res.status(StatusCode.OK).json(todo)
+			}
+		})
 	} catch (error) {
 		Logger.error(error)
 		res.status(StatusCode.INTERNAL_SERVER_ERROR).json({error})
 	}
 }
 
-const updateTodo = async (req: Request, res: Response) => {
+const updateTodo = (req: Request, res: Response) => {
 	try {
 		const {id} = req.params
 		const {title, assignedTo} = req.body
-		const todo = await TodoModel.findByIdAndUpdate(id, {
+		const query = {
 			title,
 			assignedTo
-		}, {new: true})
-		Logger.debug(todo)
-		res.status(StatusCode.OK).json(todo)
+		}
+		TodoModel.findByIdAndUpdate(id, query, returnUpdatedObject, (error, todo) => {
+			if (error) {
+				Logger.error(error)
+				res.status(StatusCode.BAD_REQUEST).send({
+					error: 'Error updating todo'
+				})
+			} else {
+				Logger.debug(todo)
+				res.status(StatusCode.OK).json(todo)
+			}
+		})
 	} catch (error) {
 		Logger.error(error)
 		res.status(StatusCode.INTERNAL_SERVER_ERROR).json({error})
 	}
 }
 
-const toggleTodoStatus = async (req: Request, res: Response) => {
+const toggleTodoStatus = (req: Request, res: Response) => {
 	try {
 		const {id} = req.params
 		const {newTodoStatus} = req.body
-		const todo = await TodoModel.findByIdAndUpdate(id, {
+		const query = {
 			completed: newTodoStatus
-		}, {new: true})
-		Logger.debug(todo)
-		res.status(StatusCode.OK).json(todo)
+		}
+		TodoModel.findByIdAndUpdate(id, query, returnUpdatedObject, (error, todo) => {
+			if (error) {
+				Logger.error(error)
+				res.status(StatusCode.BAD_REQUEST).send({
+					error: 'Error updating todo'
+				})
+			} else {
+				Logger.debug(todo)
+				res.status(StatusCode.OK).json(todo)
+			}
+		})
 	} catch (error) {
 		Logger.error(error)
 		res.status(StatusCode.INTERNAL_SERVER_ERROR).json({error})
 	}
 }
 
-const deleteTodo = async (req: Request, res: Response) => {
+const deleteTodo = (req: Request, res: Response) => {
 	try {
 		const {id} = req.params
-		const todo = await TodoModel.findByIdAndDelete(id)
-		Logger.debug(todo)
-		res.status(StatusCode.OK).json(todo)
+		TodoModel.findByIdAndDelete(id, (error: any, todo: any) => {
+			if (error) {
+				Logger.error(error)
+				res.status(StatusCode.BAD_REQUEST).send({
+					error: 'Error deleting todo'
+				})
+			} else {
+				Logger.debug(todo)
+				res.status(StatusCode.OK).json(todo)
+			}
+		})
 	} catch (error) {
 		Logger.error(error)
 		res.status(StatusCode.INTERNAL_SERVER_ERROR).json({error})

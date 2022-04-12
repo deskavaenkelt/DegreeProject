@@ -7,11 +7,17 @@ dotenv.config()
 
 const PORT: number = Number(process.env.SERVER_PORT) || 8080
 const env: string = process.env.NODE_ENV
-const mongodbUrl: string = process.env.MONGODB_URL
-const dbName: string = process.env.MONGODB_DB_NAME
+
+let uri: string
+
+if (env === 'development') {
+	uri = process.env.MONGODB_URL + process.env.MONGODB_DB_NAME
+} else {
+	uri = process.env.MONGODB_URI
+}
+
 
 const connectToDatabase = async () => {
-	const uri = mongodbUrl + dbName
 	try {
 		await connect(uri)
 		Logger.info('Successfully connected to the Database')
